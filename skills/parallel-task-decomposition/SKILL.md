@@ -62,6 +62,7 @@ Read-only workers must not edit files. Their output should include findings, evi
 Generic `explorer` and `reviewer` roles are always scoped read-only and must not act as the main orchestrator.
 Generic `explorer`/`reviewer` wording is a role label only and is not a guaranteed mini-routing shortcut.
 For cheap/lightweight read-only delegated tasks, route with `agent_type` `default`, `model` `gpt-5.4-mini`, and `reasoning_effort` `medium` unless stricter host policy overrides.
+For high-end delegated read-only adjudication, route with `agent_type` `default`, `model` `gpt-5.4`, and `reasoning_effort` `high` with explicit read-only scope.
 When project-specific read-only lanes are configured, they take precedence over generic `explorer`/`reviewer` usage.
 
 ## Implementation Patterns

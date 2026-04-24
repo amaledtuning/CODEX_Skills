@@ -1,0 +1,113 @@
+{
+  "generated_at_utc": "2026-04-21T18:02:38Z",
+  "root": "D:\\BD\\codex_publish\\CODEX_Skills",
+  "file_count": 21,
+  "total_bytes": 97399,
+  "files": [
+    {
+      "path": ".gitignore",
+      "bytes": 52,
+      "sha256": "9830f271c00b8f4d83d82aa4131708d84d67f8a28f991ace5501b89e86d90812"
+    },
+    {
+      "path": "publish_manifest.json",
+      "bytes": 4024,
+      "sha256": "6197d9bb7312e2c1a57d66cf7b7f8d59fadad3467360cb672ab2699ce6f74afb"
+    },
+    {
+      "path": "README.md",
+      "bytes": 1084,
+      "sha256": "69afdfc886d44d87eec96b65198d26f85e6683447254622096e0efefea5012d9"
+    },
+    {
+      "path": "skills/active-session-continuity/SKILL.md",
+      "bytes": 3942,
+      "sha256": "185290c7852fbc5f75f0727515e5a64669e444e5862d9c17420753314a4ceb96"
+    },
+    {
+      "path": "skills/chat-handoff-checkpoint/SKILL.md",
+      "bytes": 3959,
+      "sha256": "402191012d61e4f4eb0fab18b2c0948174cb60afa3fb1d65e5ae70908e00c1c7"
+    },
+    {
+      "path": "skills/meta-mode-memory/resources/prompts.md",
+      "bytes": 1760,
+      "sha256": "ae4722a846546cc67cc8ce28206913b6638f1cc9acbc2c428e9e414f7c377566"
+    },
+    {
+      "path": "skills/meta-mode-memory/resources/schema.md",
+      "bytes": 3255,
+      "sha256": "c1ad82d56a5f46bd63369a6da7fd1aaf602a8191ddc98fcb6efa85c36690e4fd"
+    },
+    {
+      "path": "skills/meta-mode-memory/resources/workflow.md",
+      "bytes": 1625,
+      "sha256": "7728b10aaff13f5f155d090b7e6fca3963cc80eb46c641077222663b0806cfd4"
+    },
+    {
+      "path": "skills/meta-mode-memory/scripts/append_daily_log.py",
+      "bytes": 1596,
+      "sha256": "618582e8d68b3fac2937e16d70b84e57b9eb751cde3e2fa7a6c5abc0fdcd53b8"
+    },
+    {
+      "path": "skills/meta-mode-memory/scripts/common.py",
+      "bytes": 12579,
+      "sha256": "8b1a02c4da78d0861fbe4fa1f883c035e5280f418ef9a95d311e0dab20ebbe4f"
+    },
+    {
+      "path": "skills/meta-mode-memory/scripts/compile_knowledge.py",
+      "bytes": 11506,
+      "sha256": "04489f47ddbd8caaf377fde3735b1f17e616099dc75410874f4b249df4cfa912"
+    },
+    {
+      "path": "skills/meta-mode-memory/scripts/ingest_docs.py",
+      "bytes": 2722,
+      "sha256": "cf1812e577adf801bb1139b587260684816326973e19fe41295c5d4e81541359"
+    },
+    {
+      "path": "skills/meta-mode-memory/scripts/lint_audit.py",
+      "bytes": 7156,
+      "sha256": "acd51f918c14862db39b57620c1113962b52f1b13eacacf42f28fab9495a72cc"
+    },
+    {
+      "path": "skills/meta-mode-memory/scripts/query_memory.py",
+      "bytes": 5253,
+      "sha256": "c480d1e902cd53724730db3e77c4fd6b2b685ec3e6d51b82d49264b8f10e7275"
+    },
+    {
+      "path": "skills/meta-mode-memory/scripts/save_note.py",
+      "bytes": 1016,
+      "sha256": "b3aead4b34a31d462130e976b85b01f653c7d19f0b6a4a28cc2585af40305c41"
+    },
+    {
+      "path": "skills/meta-mode-memory/scripts/session_checkpoint.py",
+      "bytes": 5160,
+      "sha256": "d31ec2fecda4c3e1fc87384802eab163cc6bbefe2e2c127c55600197a937a732"
+    },
+    {
+      "path": "skills/meta-mode-memory/SKILL.md",
+      "bytes": 3629,
+      "sha256": "d84e3b74145404548588ca92da097740061c25aea09b22d00951abed0a9d8ca2"
+    },
+    {
+      "path": "skills/parallel-codex-execution/SKILL.md",
+      "bytes": 5003,
+      "sha256": "f52e33d497172d6d9f2b288d2a1290de135dec974f0ffe83227d2e53eea5a7b8"
+    },
+    {
+      "path": "skills/parallel-task-decomposition/SKILL.md",
+      "bytes": 6212,
+      "sha256": "790aa2cad62f7a91f6fb56be9b26c44969d417ceabaf6c8b666f0d4db70198c6"
+    },
+    {
+      "path": "skills/universal-orchestrator-rules/references/UNIVERSAL_ORCHESTRATOR_RULES.md",
+      "bytes": 10605,
+      "sha256": "290c35eb38f3c4d1d622e5466045e6fdd781b2517709263e008e7c73241c76ad"
+    },
+    {
+      "path": "skills/universal-orchestrator-rules/SKILL.md",
+      "bytes": 5261,
+      "sha256": "00cb9a93c84ef19a2bf96b977486dd89b8c639c4151cb3e2da2ae1549d797da3"
+    }
+  ]
+}
