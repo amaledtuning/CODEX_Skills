@@ -151,6 +151,7 @@ Baseline policy (adapt per environment):
 
 - Architect lane: strongest governance model for intake/planning/final review.
 - Default lightweight read-only delegated lane: `agent_type` `default` with `model` `gpt-5.4-mini` and `reasoning_effort` `medium`.
+- Conditional high-end delegated read-only analysis/adjudication lane: `model` `gpt-5.4` + `reasoning_effort` `high` (read-only, no implementation, no writes).
 - Generic `explorer`/`helper` wording is a role label only, not a guaranteed mini-routing shortcut.
 - Default coding lane: `gpt-5.3-codex` with `reasoning_effort` `medium` for ordinary implementation work.
 - Heavy refactor/migration lane: stronger coding model for risky multi-file change.
@@ -160,7 +161,7 @@ Hard rules:
 
 - Prefer cheapest sufficient model.
 - Reserve top governance lane for architect responsibilities, not routine coding.
-- Avoid `xhigh` reasoning in delegated runs unless explicitly approved for the task.
+- Avoid `xhigh` reasoning in delegated runs unless explicitly approved for the task; the conditional `gpt-5.4` adjudication lane must remain `reasoning_effort=high` without `xhigh`.
 
 ## 12) Documentation Layering
 

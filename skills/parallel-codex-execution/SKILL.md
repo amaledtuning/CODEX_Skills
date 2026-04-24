@@ -20,6 +20,7 @@ Host/project policy remains the source of truth for:
 Routing baseline for cheap/lightweight read-only delegated lanes (unless host/project policy is stricter):
 - use `agent_type` `default` with `model` `gpt-5.4-mini` and `reasoning_effort` `medium`;
 - treat generic `explorer`/`reviewer`/`helper` wording as role labels only, not mini-route aliases.
+- For high-end read-only adjudication, add a `gpt-5.4` + `reasoning_effort` `high` read-only option.
 
 ## Compact Governance Capsule (Required)
 

@@ -20,16 +20,17 @@ Use this skill when a project needs a reusable baseline for Codex orchestrator b
 9. For broad or complex tasks, use `parallel-task-decomposition` as the default decomposition pattern before spawning subagents.
 10. Use a compact governance capsule in delegated prompts: delegated role (not architect), narrow scope, read/write mode, allowed and forbidden actions, and blocker-only stop conditions.
 11. Use explicit route metadata for delegated work: model, reasoning effort, role, goal, scope, and output contract.
-12. For cheap/lightweight read-only delegated tasks, default to `agent_type` `default` with `model` `gpt-5.4-mini` and `reasoning_effort` `medium`.
-13. Treat generic `explorer`/`helper` wording as role labels only; do not use it as an automatic mini-route shortcut.
-14. Apply the Context Boundary Protocol (Context-Light Orchestrator Mode): keep orchestrator intake/output compact, use structured evidence summaries by default, and request targeted raw artifacts only when needed.
-15. Apply the language baseline from active project/user policy; do not redefine language defaults here.
-16. Keep user-facing orchestration concise. Do not dump internal reasoning or full delegated prompts unless the user asks.
-17. Respect explicit user override: if the user requests sequential execution, run sequentially instead of parallel decomposition.
-18. Startup companion skills are additive and do not replace current-session integration/synthesis duties.
-19. In active chats, delegated write results must be integrated, verified, and reported in the same thread.
-20. Require full policy-file reads only when task risk/domain warrants it (policy/governance edits, audits, high-risk writes, safety-sensitive work, or ambiguous multi-step tasks).
-21. When a project has stricter local rules, treat those rules as the active override.
+12. For cheap/lightweight read-only delegated tasks, default to `agent_type` `default` with `model` `gpt-5.4-mini` and `reasoning_effort` `medium`. `GPT-5.5` is architect/orchestrator-only and must not be delegated as a worker model.
+13. Use `GPT-5.4` as the conditional high-end delegated read-only analysis/adjudication lane with `reasoning_effort` `high`; it must be explicitly read-only with no writes or implementation.
+14. Treat generic `explorer`/`helper` wording as role labels only; do not use it as an automatic mini-route shortcut.
+15. Apply the Context Boundary Protocol (Context-Light Orchestrator Mode): keep orchestrator intake/output compact, use structured evidence summaries by default, and request targeted raw artifacts only when needed.
+16. Apply the language baseline from active project/user policy; do not redefine language defaults here.
+17. Keep user-facing orchestration concise. Do not dump internal reasoning or full delegated prompts unless the user asks.
+18. Respect explicit user override: if the user requests sequential execution, run sequentially instead of parallel decomposition.
+19. Startup companion skills are additive and do not replace current-session integration/synthesis duties.
+20. In active chats, delegated write results must be integrated, verified, and reported in the same thread.
+21. Require full policy-file reads only when task risk/domain warrants it (policy/governance edits, audits, high-risk writes, safety-sensitive work, or ambiguous multi-step tasks).
+22. When a project has stricter local rules, treat those rules as the active override.
 
 ## Full Reference
 
