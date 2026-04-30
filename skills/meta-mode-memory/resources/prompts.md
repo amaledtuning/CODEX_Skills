@@ -10,6 +10,7 @@ Body:
 - Stable compact facts (never full history)
 - Stable facts and assumptions
 - Decisions made
+- Do-not-reask decisions
 - What was blocked and why
 - Validation performed
 - Changed files
@@ -28,6 +29,7 @@ Body:
 - Stable facts
 - Actions taken
 - Decisions
+- Do-not-reask decisions
 - Blockers
 - Validation
 - Changed files
@@ -42,6 +44,7 @@ Kind: decision
 Tags: <domain>, <tradeoff>
 Body:
 - Decision
+- Do-not-reask decision, if the user has settled it
 - Alternatives considered
 - Tradeoffs
 - Impact on existing work
@@ -61,6 +64,7 @@ State payload (JSON):
   "tags": ["tag1", "tag2"],
   "facts": ["fact_1", "fact_2"],
   "decisions": ["decision_1"],
+  "do_not_reask_decisions": ["settled decision not to re-ask unless new evidence appears"],
   "blockers": ["blocker_1"],
   "sources": ["daily/YYYY-MM-DD.md"],
   "changed_files": ["path/to/file1", "path/to/file2"],
@@ -92,3 +96,4 @@ Return top matches as:
 3) concise snippet (1-2 lines)
 4) optional next file to inspect
 ```
+

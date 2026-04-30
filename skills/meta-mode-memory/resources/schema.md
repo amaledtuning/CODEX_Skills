@@ -4,7 +4,7 @@
 
 All data is rooted at:
 
-- default: `<repo>/.agents/memory` (auto-detected from the installed skill path)
+- default: `<repo>/.codex-memory` (auto-detected from the installed skill path)
 - optional override: `META_MODE_MEMORY_ROOT`
 - optional repo override (when memory root is defaulted): `META_MODE_MEMORY_REPO_ROOT`
 
@@ -72,6 +72,9 @@ Body text (markdown allowed)
   "decisions": [
     "decision 1"
   ],
+  "do_not_reask_decisions": [
+    "settled user-approved decision that should not be re-asked unless new evidence appears"
+  ],
   "blockers": [
     "current blocker"
   ],
@@ -102,6 +105,7 @@ Body text (markdown allowed)
   "tags": ["tag1", "tag2"],
   "facts": [...],
   "decisions": [...],
+  "do_not_reask_decisions": [...],
   "blockers": [...],
   "sources": ["daily/YYYY-MM-DD.md"],
   "validation": [...],
@@ -127,3 +131,4 @@ Body text (markdown allowed)
 For each checkpoint, update both:
 - one `daily/YYYY-MM-DD.md` entry (human-readable)
 - one compact state artifact pair under `state/` (machine-readable)
+

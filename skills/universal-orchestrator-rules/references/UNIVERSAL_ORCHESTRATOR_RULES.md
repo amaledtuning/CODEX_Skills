@@ -149,18 +149,22 @@ Route mismatch codes:
 
 Baseline policy (adapt per environment):
 
-- Architect lane: strongest governance model for intake/planning/final review.
+- Architect lane: `GPT-5.5` for intake, planning, decomposition, and final synthesis.
 - Default lightweight read-only delegated lane: `agent_type` `default` with `model` `gpt-5.4-mini` and `reasoning_effort` `medium`.
+- Conditional high-end delegated read-only analysis/adjudication lane: `model` `gpt-5.4` with `reasoning_effort` `high`, only when lower-cost lanes are insufficient or conflicting.
+- `gpt-5.4` high lane is strictly read-only: no writes, no implementation, no imports, no Directus/ERP writes/schema operations, and no production script execution.
+- No delegated run may use `gpt-5.4` high lane for writes, implementation, imports, Directus/ERP writes, schema changes, or production scripts.
 - Generic `explorer`/`helper` wording is a role label only, not a guaranteed mini-routing shortcut.
 - Default coding lane: `gpt-5.3-codex` with `reasoning_effort` `medium` for ordinary implementation work.
-- Heavy refactor/migration lane: stronger coding model for risky multi-file change.
-- Lightweight read-only helper work uses the standard cheap read-only route: `agent_type` `default`, `model` `gpt-5.4-mini`, `reasoning_effort` `medium`.
+- Heavy refactor/migration lane: `gpt-5.2-codex` with `reasoning_effort` `high` for risky multi-file changes.
+- Tiny targeted edit exception: `gpt-5.3-codex-spark` with `reasoning_effort` `high` for very small, low-risk edits.
+- Do not invent unavailable mini variants; keep `gpt-5.4-mini` until an actual successor exists.
 
 Hard rules:
 
 - Prefer cheapest sufficient model.
 - Reserve top governance lane for architect responsibilities, not routine coding.
-- Avoid `xhigh` reasoning in delegated runs unless explicitly approved for the task.
+- No delegated run may use `xhigh` reasoning.
 
 ## 12) Documentation Layering
 
@@ -173,7 +177,7 @@ Hard rules:
 ## 13) Language Policy
 
 Default language rules:
-- User-facing communication is Russian by default unless the user explicitly asks otherwise.
+- User-facing communication follows active user/project language policy.
 - Agent-facing prompts, delegated task contracts, rule documents, coordination notes, handoff notes, and internal worker outputs must be English.
 - Use another language in agent-facing artifacts only when producing an explicit user-facing translation artifact or when the project explicitly overrides this baseline.
 - Project-specific language policy may add stricter local rules, but it should not duplicate this full baseline.

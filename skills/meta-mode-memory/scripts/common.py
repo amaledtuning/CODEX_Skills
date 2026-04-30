@@ -34,13 +34,13 @@ def _resolve_roots() -> tuple[Path, Path]:
     repo_override = os.environ.get(ENV_REPO_ROOT, "").strip()
     memory_override = os.environ.get(ENV_MEMORY_ROOT, "").strip()
 
+    repo_root = _norm_path(repo_override) if repo_override else _detect_repo_root()
+
     if memory_override:
         memory_root = _norm_path(memory_override)
-        repo_root = _norm_path(repo_override) if repo_override else memory_root.parent.parent
         return repo_root, memory_root
 
-    repo_root = _norm_path(repo_override) if repo_override else _detect_repo_root()
-    return repo_root, repo_root / ".agents" / "memory"
+    return repo_root, repo_root / ".codex-memory"
 
 
 REPO_ROOT, MEMORY_ROOT = _resolve_roots()
@@ -155,6 +155,7 @@ COMPACT_STATE_FIELDS = (
     "status",
     "facts",
     "decisions",
+    "do_not_reask_decisions",
     "blockers",
     "changed_files",
     "validation",
@@ -166,6 +167,7 @@ COMPACT_STATE_DEFAULT_STATUS = "in_progress"
 COMPACT_STATE_LIST_LIMITS = {
     "facts": 20,
     "decisions": 20,
+    "do_not_reask_decisions": 20,
     "blockers": 20,
     "changed_files": 30,
     "validation": 20,
@@ -268,6 +270,10 @@ def normalize_compact_state(payload: Mapping[str, Any] | None) -> dict[str, str 
         "decisions": _compact_to_list(
             data.get("decisions"), max_items=COMPACT_STATE_LIST_LIMITS["decisions"]
         ),
+        "do_not_reask_decisions": _compact_to_list(
+            data.get("do_not_reask_decisions"),
+            max_items=COMPACT_STATE_LIST_LIMITS["do_not_reask_decisions"],
+        ),
         "blockers": _compact_to_list(data.get("blockers"), max_items=COMPACT_STATE_LIST_LIMITS["blockers"]),
         "changed_files": _compact_to_list(
             data.get("changed_files"),
@@ -360,22 +366,6 @@ def discover_searchable_files() -> list[Path]:
 ENTRY_HEADER_RE = re.compile(r"^### \[(?P<time>[^\]]+)\] kind: (?P<kind>[^|]+)\| (?P<title>.+)$", re.MULTILINE)
 TAGS_LINE_RE = re.compile(r"^- tags:\s*(?P<tags>.+?)\s*$", re.MULTILINE)
 CREATED_AT_LINE_RE = re.compile(r"^- created_at:\s*(?P<created_at>.+?)\s*$", re.MULTILINE)
-COMPACT_STATE_FIELDS = (
-    "task_id",
-    "title",
-    "updated_at",
-    "status",
-    "facts",
-    "decisions",
-    "blockers",
-    "changed_files",
-    "validation",
-    "next_steps",
-    "tags",
-    "sources",
-)
-
-
 def parse_daily_entries(path: Path) -> list[dict[str, str | list[str]]]:
     content = read_text(path)
     matches = list(ENTRY_HEADER_RE.finditer(content))

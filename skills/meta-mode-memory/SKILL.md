@@ -19,10 +19,12 @@ Use this skill when you need compact, durable task-state memory in the repo with
 ## Codex-safe behavior
 
 - File-first only: no network, no DB, no non-stdlib deps.
-- All writes are rooted under `.agents/memory`.
+- All writes are rooted under `.codex-memory` by default.
 - Root resolution is portable: default auto-detect + optional `META_MODE_MEMORY_REPO_ROOT` / `META_MODE_MEMORY_ROOT`.
 - Deterministic compilation and ranking (no LLM summarization).
 - Memory entries should persist stable facts, decisions, blockers, validation, changed files, and next steps.
+- Before asking the user for previously settled context or exact prior state, query compact memory first.
+- Generic retrieval order: `state/current.json` -> `state/checkpoints/*` -> `query_memory.py` / compiled knowledge -> project-defined archive pointers -> ask user only if unresolved.
 - Keep all entries compact and machine-actionable for later replay.
 - Avoid storing raw logs, full file contents, secrets, tokens, or long diffs.
 - Test artifacts should be cleaned up or clearly labeled test data.
@@ -30,9 +32,9 @@ Use this skill when you need compact, durable task-state memory in the repo with
 ## Compact state layer (required)
 
 - The durable state layer is rooted at:
-  - `.agents/memory/state/current.json` (single source of last known compact state)
-  - `.agents/memory/state/checkpoints/*.json` (timestamped immutable checkpoint artifacts)
-- `.agents/memory/daily/*.md` remains the human-readable log surface.
+  - `.codex-memory/state/current.json` (single source of last known compact state)
+  - `.codex-memory/state/checkpoints/*.json` (timestamped immutable checkpoint artifacts)
+- `.codex-memory/daily/*.md` remains the human-readable log surface.
 - Pair each session checkpoint with:
   - one markdown daily entry
   - one compact state update in `state/current.json` and `state/checkpoints/<id>.json`
@@ -53,12 +55,13 @@ See `resources/workflow.md` for the preferred session workflow and end-of-sessio
 
 ## Commands
 
-Run from repo root (or set `META_MODE_MEMORY_REPO_ROOT` / `META_MODE_MEMORY_ROOT` first):
+Run from repo root (or set `META_MODE_MEMORY_REPO_ROOT` / `META_MODE_MEMORY_ROOT` first). These paths assume a vendored/project copy at `.agents/skills/meta-mode-memory`; for an installed user-level skill, resolve script paths relative to that skill directory:
+Worker-only execution guard: command examples in this skill are for delegated worker lanes only; the main GPT-5.5 orchestrator does not execute local repo commands.
 
 ```powershell
 python .agents/skills/meta-mode-memory/scripts/save_note.py "short text" --title "Optional title" --tag mvp --kind note
 python .agents/skills/meta-mode-memory/scripts/append_daily_log.py --kind reflection --title "Session wrap" --body "What changed and why"
-python .agents/skills/meta-mode-memory/scripts/session_checkpoint.py --title "Session checkpoint" --tag mvp --body "Summary text"
+python .agents/skills/meta-mode-memory/scripts/session_checkpoint.py --title "Session checkpoint" --tag mvp --decision "Decision text" --do-not-reask-decision "Settled decision text" --body "Summary text"
 python .agents/skills/meta-mode-memory/scripts/ingest_docs.py
 python .agents/skills/meta-mode-memory/scripts/compile_knowledge.py
 python .agents/skills/meta-mode-memory/scripts/query_memory.py "search terms" --limit 8
@@ -70,8 +73,8 @@ python .agents/skills/meta-mode-memory/scripts/lint_audit.py
 1. Capture notes with `save_note.py` or `append_daily_log.py`.
 2. At session end, write one markdown daily entry and run `session_checkpoint.py`.
 3. `session_checkpoint.py` must align with the compact state files:
-   - updates `.agents/memory/state/current.json`
-   - appends a new `.agents/memory/state/checkpoints/*.json` entry
-4. Drop docs into `.agents/memory/inbox` and run `ingest_docs.py`.
+   - updates `.codex-memory/state/current.json`
+   - appends a new `.codex-memory/state/checkpoints/*.json` entry
+4. Drop docs into `.codex-memory/inbox` and run `ingest_docs.py`.
 5. Rebuild compiled pages with `compile_knowledge.py`.
 6. Run `query_memory.py` for retrieval and `lint_audit.py` for health checks.

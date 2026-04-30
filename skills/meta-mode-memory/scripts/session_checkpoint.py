@@ -34,6 +34,13 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--task-id", help="Optional task identifier")
     parser.add_argument("--status", help="Optional checkpoint status")
     parser.add_argument("--checkpoint-id", help="Optional checkpoint id for compact state file")
+    parser.add_argument("--decision", action="append", default=[], help="Decision to store in compact state (repeatable)")
+    parser.add_argument(
+        "--do-not-reask-decision",
+        action="append",
+        default=[],
+        help="Settled decision the next agent should not ask again unless new evidence appears (repeatable)",
+    )
     parser.add_argument("--body", help="Inline body text")
     parser.add_argument("--file", help="Read body from file path")
     parser.add_argument("--no-compile", action="store_true", help="Skip compile_knowledge.py")
@@ -75,6 +82,8 @@ def _compact_payload(args: argparse.Namespace, body: str, checkpoint_id: str) ->
             "status": args.status,
             "tags": args.tag,
             "facts": [summary] if summary else [],
+            "decisions": args.decision,
+            "do_not_reask_decisions": args.do_not_reask_decision,
             "sources": [f"checkpoint:{checkpoint_id}"],
             "updated_at": iso_now(),
         }
@@ -83,9 +92,15 @@ def _compact_payload(args: argparse.Namespace, body: str, checkpoint_id: str) ->
 
 def _write_compact_state(payload: dict[str, str | list[str]], checkpoint_id: str) -> None:
     normalized = normalize_compact_state(payload)
-    text = json.dumps(normalized, ensure_ascii=False, indent=2) + "\n"
-    write_text(compact_state_current_path(), text)
-    write_text(compact_state_checkpoint_path(checkpoint_id), text)
+    current_text = json.dumps(normalized, ensure_ascii=False, indent=2) + "\n"
+    checkpoint_payload = {
+        "checkpoint_id": checkpoint_id,
+        "created_at": normalized.get("updated_at", ""),
+        **normalized,
+    }
+    checkpoint_text = json.dumps(checkpoint_payload, ensure_ascii=False, indent=2) + "\n"
+    write_text(compact_state_current_path(), current_text)
+    write_text(compact_state_checkpoint_path(checkpoint_id), checkpoint_text)
 
 
 def _status_line(label: str, status: str) -> str:

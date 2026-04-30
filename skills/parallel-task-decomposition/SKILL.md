@@ -13,7 +13,11 @@ Do not spawn multiple agents on the same broad prompt. Split the work first.
 
 One subagent = one narrow task with a clear role, scope, output, and ownership boundary.
 
+GPT-5.5 is the orchestrator/main-thread lane and is never assigned to delegated worker execution.
+
 When the user request requires delegated local repo work under active policy boundaries, decompose and delegate by default; do not block for a separate delegation-permission question unless a higher-priority runtime/platform rule requires it or the user explicitly forbids delegation.
+
+For non-trivial delegated local work, always perform a quick parallelization check before spawning. If the task stays in one lane, state the short reason, such as single write scope, dependency on one answer, safety boundary, or overhead exceeding value.
 
 ## When To Parallelize
 
@@ -41,11 +45,12 @@ Keep work sequential when:
 2. Identify independent questions or file ownership areas.
 3. Separate read-only work from write work.
 4. Assign each subtask a non-overlapping scope.
-5. Pick the cheapest sufficient model and explicit reasoning effort for each worker.
-6. Include a compact governance capsule in every delegated prompt (role/scope/mode/allowed-forbidden/stop conditions).
-7. Run independent read-only or disjoint write tasks in parallel.
-8. Integrate results in the main orchestrator thread.
-9. Resolve conflicts, choose the implementation path, and run final validation or review.
+5. If only one lane remains, record the short reason and continue without forcing artificial parallelism.
+6. Pick the cheapest sufficient model and explicit reasoning effort for each worker: `gpt-5.4-mini`+`medium` as default for read-only work, and `gpt-5.4`+`high` only as conditional read-only adjudication.
+7. Include a compact governance capsule in every delegated prompt (role/scope/mode/allowed-forbidden/language/stop conditions).
+8. Run independent read-only or disjoint write tasks in parallel.
+9. Integrate results in the main orchestrator thread.
+10. Resolve conflicts, choose the implementation path, and run final validation or review.
 
 ## Read-Only Patterns
 
@@ -61,7 +66,11 @@ Good parallel read-only splits:
 Read-only workers must not edit files. Their output should include findings, evidence, risks, and proposed next actions.
 Generic `explorer` and `reviewer` roles are always scoped read-only and must not act as the main orchestrator.
 Generic `explorer`/`reviewer` wording is a role label only and is not a guaranteed mini-routing shortcut.
-For cheap/lightweight read-only delegated tasks, route with `agent_type` `default`, `model` `gpt-5.4-mini`, and `reasoning_effort` `medium` unless stricter host policy overrides.
+For cheap/lightweight read-only delegated tasks, follow the canonical routing baseline from `universal-orchestrator-rules` unless stricter host policy overrides.
+Default read-only delegated lane: `gpt-5.4-mini` + `medium`.
+Use `gpt-5.4` + `high` only for conditional read-only analysis/adjudication when lower-cost lanes are insufficient or conflicting; this lane is strictly read-only (no writes, no implementation, no imports, no Directus/ERP writes/schema changes, no production scripts); no delegated run may use `xhigh`.
+Default implementation lane: `gpt-5.3-codex` + `medium`; use `gpt-5.3-codex-spark` + `high` only for tiny targeted edits and `gpt-5.2-codex` + `high` for heavy risky changes.
+Do not invent unavailable mini variants; keep `gpt-5.4-mini` until an actual successor exists.
 When project-specific read-only lanes are configured, they take precedence over generic `explorer`/`reviewer` usage.
 
 ## Implementation Patterns
@@ -104,7 +113,7 @@ OUTPUT:
 - risks
 - tests/validation
 ROLE:
-LANGUAGE:
+LANGUAGE: Internal/delegated artifacts are English-only; only localized user-facing deliverables may use another language (per `D:\BD\AGENTS.md`).
 ```
 
 Do not attach full policy documents to every narrow task. Include only task-specific policy references when needed.

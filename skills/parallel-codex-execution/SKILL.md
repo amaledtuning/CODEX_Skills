@@ -9,6 +9,8 @@ Use this skill to run practical parallel worker lanes for one implementation tas
 
 This skill owns lane execution mechanics only. It does not define global governance, model-policy authority, or architect/orchestrator rules.
 
+GPT-5.5 is the architect/orchestrator lane and is not used as a delegated worker/runtime lane.
+
 Use this playbook once requested local repo work is already in delegated execution scope under active policy boundaries; do not add a separate delegation-permission gate unless a higher-priority runtime/platform rule requires it or the user explicitly forbids delegation.
 
 Host/project policy remains the source of truth for:
@@ -17,8 +19,14 @@ Host/project policy remains the source of truth for:
 - mismatch handling (for example model/reasoning/runtime drift policies);
 - domain/data-safety constraints.
 
-Routing baseline for cheap/lightweight read-only delegated lanes (unless host/project policy is stricter):
-- use `agent_type` `default` with `model` `gpt-5.4-mini` and `reasoning_effort` `medium`;
+Routing baseline for delegated lanes (use host/project overrides first):
+- `gpt-5.4-mini` + `medium` is the default cheap read-only/scouting lane.
+- use `gpt-5.4` + `high` only as conditional read-only analysis/adjudication when lower-cost lanes are insufficient or conflicting; this lane is strictly read-only (no writes, no implementation, no imports, no Directus/ERP writes/schema changes, no production scripts).
+- default implementation lane: `gpt-5.3-codex` + `medium`;
+- tiny targeted edit exception: `gpt-5.3-codex-spark` + `high`;
+- heavy legacy/refactor fallback: `gpt-5.2-codex` + `high`;
+- Do not invent unavailable mini variants; keep `gpt-5.4-mini` until an actual successor exists.
+- never allow delegated `xhigh`;
 - treat generic `explorer`/`reviewer`/`helper` wording as role labels only, not mini-route aliases.
 
 ## Compact Governance Capsule (Required)
@@ -30,6 +38,7 @@ Minimum capsule fields:
 - task scope: exact goal, paths, and no scope broadening;
 - execution mode: read-only or write-allowed with explicit write set;
 - allowed actions and forbidden actions;
+- language: internal/delegated worker instructions, subagent visible status notes, reasoning summaries, intermediate messages, final outputs, handoff/bootstrap blocks, and delegated artifacts are English-only unless producing localized user-facing content;
 - stop conditions: only scope, role, safety, or permission blockers;
 - route metadata handling: if runtime model/reasoning is visible, treat drift as diagnostic unless another blocker applies.
 
@@ -102,7 +111,7 @@ OUTPUT:
 - validation
 - blockers
 ROLE:
-LANGUAGE:
+LANGUAGE: Internal/delegated worker instructions, subagent visible status notes, reasoning summaries, intermediate messages, final outputs, handoff/bootstrap blocks, and delegated artifacts are English-only unless producing localized user-facing content.
 ```
 
 ## Lane Output Contract
