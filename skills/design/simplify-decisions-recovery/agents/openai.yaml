@@ -1,0 +1,4 @@
+interface:
+  display_name: "Decisions and Recovery"
+  short_description: "Simplify choices and error recovery"
+  default_prompt: "Use $simplify-decisions-recovery to reduce choice overload and improve recovery paths."

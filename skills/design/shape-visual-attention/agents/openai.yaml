@@ -1,0 +1,4 @@
+interface:
+  display_name: "Shape Visual Attention"
+  short_description: "Direct visual focus across media"
+  default_prompt: "Use $shape-visual-attention to strengthen visual hierarchy and attention in this design."

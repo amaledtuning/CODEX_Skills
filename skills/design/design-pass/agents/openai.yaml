@@ -1,0 +1,4 @@
+interface:
+  display_name: "Design Pass"
+  short_description: "Route design quality passes"
+  default_prompt: "Use $design-pass to choose the right design quality pass for this material."

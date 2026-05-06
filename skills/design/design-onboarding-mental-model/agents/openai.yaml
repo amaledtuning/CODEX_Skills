@@ -1,0 +1,4 @@
+interface:
+  display_name: "Onboarding Mental Model"
+  short_description: "Clarify first-use understanding"
+  default_prompt: "Use $design-onboarding-mental-model to explain this product or workflow clearly to new users."

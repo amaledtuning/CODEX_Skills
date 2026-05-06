@@ -1,0 +1,4 @@
+interface:
+  display_name: "Readability Information Design"
+  short_description: "Make dense information readable"
+  default_prompt: "Use $improve-readability-information-design to improve readability and information structure in this material."

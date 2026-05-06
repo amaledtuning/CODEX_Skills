@@ -1,115 +1,63 @@
 # CODEX Skills
 
-Reusable self-authored Codex skills for orchestrating delegated work, preserving continuity, managing compact memory, and preparing clean handoffs.
+Self-authored global Codex skills for design quality passes and orchestrated workflow control.
+
+This repository intentionally publishes only custom skills from `C:\Users\user\.codex\skills`. It does not include system skills, plugin/vendor skills, framework implementation skills, or third-party imported skills.
 
 ## Repository Layout
 
-- `skills/<skill-name>/SKILL.md`
-- Optional `resources/` files for extended references
-- Optional `scripts/` files for deterministic helper tooling
-
-## Included Skills
-
-| Skill | Purpose | Use When |
-|---|---|---|
-| `universal-orchestrator-rules` | Reusable governance baseline for Codex orchestration. Defines role boundaries, delegation contracts, route metadata, context hygiene, read/write separation, and incident reporting. | Starting or auditing an orchestrator workflow, setting project wrappers, or aligning agent behavior. |
-| `parallel-task-decomposition` | Splits broad goals into narrow delegated tasks with explicit scope, mode, ownership, output contract, and validation expectations. | A task can be parallelized safely or needs multiple focused read-only/write lanes. |
-| `parallel-codex-execution` | Practical lane-execution playbook for running scoped workers with non-overlapping ownership and validation gates. | Actually launching independent workers for implementation, validation, docs, or read-only reconnaissance. |
-| `active-session-continuity` | Keeps delegated work integrated in the same active chat. Tracks worker results, changed files, validation, blockers, and next actions. | Running delegated work in an active session and needing continuity after each worker result. |
-| `chat-handoff-checkpoint` | Produces compact handoff/checkpoint prompts for new-chat continuation without leaking secrets or raw logs. | Moving work to a new chat or preparing a durable continuation prompt. |
-| `meta-mode-memory` | File-first memory sandbox for compact durable task state, decisions, blockers, validations, and checkpoints. Includes optional scripts for notes, logs, checkpoints, ingest, query, compile, and audit. | A project needs compact persistent task memory under `.agents/memory`. |
-
-## How The Skills Work Together
-
-1. Use `universal-orchestrator-rules` as the governance baseline.
-2. Use `parallel-task-decomposition` to split broad goals into bounded subtasks.
-3. Use `parallel-codex-execution` to run scoped lanes with clear ownership.
-4. Use `active-session-continuity` to integrate and verify worker outputs in the current thread.
-5. Use `meta-mode-memory` when compact durable state is needed.
-6. Use `chat-handoff-checkpoint` when transferring work to a new chat.
-
-## Delegated Prompt Contract
-
-Delegated worker prompts should include a compact governance capsule:
-
 ```text
-TASK_TYPE:
-MODEL:
-REASONING:
-WHY_THIS_MODEL:
-GOAL:
-SCOPE:
-MODE: read-only|write
-FILES_OR_WRITE_SET:
-ALLOWED_ACTIONS:
-FORBIDDEN_ACTIONS:
-ROUTE_METADATA: diagnostic-only-if-visible
-STOP_CONDITIONS: scope_blocker|role_blocker|safety_blocker|permission_blocker
-OUTPUT:
-ROLE:
-LANGUAGE:
+skills/
+  design/<skill-dir>/
+  orchestration/<skill-dir>/
 ```
 
-Do not force every narrow worker to read full policy files. Full policy reads are reserved for governance edits, audits, high-risk writes, safety-sensitive tasks, or ambiguous multi-step work.
+Each skill directory keeps the normal Codex skill package shape:
 
-## Routing Notes
-
-- Cheap read-only delegated route: `agent_type=default`, `model=gpt-5.4-mini`, `reasoning_effort=medium`.
-- Ordinary implementation route: `gpt-5.3-codex`, `reasoning_effort=medium`.
-- Generic `explorer`, `reviewer`, or `helper` wording is a role label, not a guaranteed model-routing shortcut.
-- Route metadata may be unavailable to workers. Treat that as `not_visible`, not as a hard failure.
-- `MODEL_MISMATCH` and `REASONING_MISMATCH` are diagnostic labels unless a separate scope, role, safety, or permission boundary is crossed.
-
-## Meta Mode Memory
-
-`meta-mode-memory` stores reusable task state in project-local memory, usually:
-
-```text
-<repo>/.agents/memory
-```
-
-It is designed for compact durable facts, not raw transcripts.
-
-Use it for:
-
-- decisions
-- blockers
-- validation results
-- changed files
-- next steps
-- compact checkpoints
-
-Do not store:
-
-- secrets or tokens
-- raw chat transcripts
-- raw logs
-- long diffs
-- full source files
-- copied policy text
+- `SKILL.md` for the trigger metadata and main workflow.
+- Optional `agents/openai.yaml` UI metadata.
+- Optional `references/`, `resources/`, `scripts/`, or `assets/` folders when the skill needs supporting material.
 
 ## Installation
 
-Copy one or more folders from `skills/` into your Codex skills directory:
+Copy the skill folders you want into your Codex skills directory, preserving each folder name:
 
 ```text
-~/.codex/skills/<skill-name>
+~/.codex/skills/<skill-dir>
 ```
 
-Then restart or refresh the Codex session so runtime skill discovery can pick them up.
+Then restart or refresh Codex so runtime skill discovery can load the new metadata. Skills are procedural aids; they do not replace project rules, system instructions, repository policies, or user approvals.
+
+## Design / UX Skills
+
+| Skill | What it does | How it works |
+| --- | --- | --- |
+| `shape-visual-attention` | Makes the most important element noticed first across UI, documents, slides, posters, images, and dashboards. | Diagnoses the attention path, then adjusts hierarchy, grouping, contrast, scale, alignment, affordance, and redundant state cues. |
+| `improve-readability-information-design` | Makes dense text and structured information easier to read, scan, compare, and understand. | Identifies the reading mode, then restructures headings, labels, paragraphs, tables, spacing, rhythm, and type hierarchy. |
+| `reduce-cognitive-load` | Simplifies complex flows, explanations, forms, dashboards, and multi-step materials. | Maps what users must notice, understand, remember, decide, and do, then reduces load through chunking, context, defaults, recognition cues, and progressive disclosure. |
+| `design-onboarding-mental-model` | Designs onboarding, first-run, tutorial, empty-state, and explainer experiences around accurate user mental models. | Compares the user's likely current model with the intended model, then teaches the core concept through sequence, examples, cause-effect feedback, and a first useful action. |
+| `build-motivation-trust` | Strengthens ethical motivation, credibility, confidence, progress, social proof, and willingness to continue. | Finds trust or motivation blockers, then adds credible proof, human context, useful progress cues, reassurance, clear value, and user agency. |
+| `simplify-decisions-recovery` | Clarifies choices, comparisons, defaults, pricing, validation, undo, confirmations, and recovery paths. | Locates the decision or failure point, then improves grouping, defaults, recommendation logic, comparison criteria, error prevention, and safe recovery. |
+| `design-pass` | Routes broad design pass requests to the smallest useful set of design skills. | Selects 1-3 focused skills based on the medium and goal, then pairs them with execution skills only when an artifact must be produced or edited. |
+
+## Orchestration / Workflow Skills
+
+| Skill | What it does | How it works |
+| --- | --- | --- |
+| `active-session-continuity` | Keeps delegated work integrated and verifiable inside the active chat. | Tracks worker outputs, scope compliance, changed files, validation, blockers, and next actions before the orchestrator reports completion. |
+| `chat-handoff-checkpoint` | Prepares compact continuation prompts and checkpoints for moving work to a new chat. | Captures current state, completed work, changed files, validation, blockers, files to read next, active constraints, and safe next steps without storing secrets or raw logs. |
+| `meta-mode-memory` | Provides a file-first memory sandbox for durable compact task state. | Uses local state files and scripts to save notes, checkpoints, daily logs, ingested docs, compiled knowledge pages, keyword queries, and audits. |
+| `parallel-codex-execution` | Guides independent worker lanes with strict scope and non-overlapping write ownership. | Defines compact governance capsules, route metadata, lane contracts, validation expectations, drift handling, and integration rules. |
+| `parallel-task-decomposition` | Splits broad goals into narrow delegated subtasks when parallel work is safe. | Checks whether work can be divided by independent read scopes or disjoint write sets, then assigns one clear role, scope, output, and boundary per lane. |
+| `universal-orchestrator-rules` | Establishes a reusable baseline for Codex orchestrator behavior and route integrity. | Points projects to role boundaries, delegation contracts, confirmation gates, context hygiene, model/reasoning metadata, monitoring, and incident reporting patterns. |
+
+## Exclusions
+
+This catalog deliberately excludes non-self-authored, system, plugin, framework, and third-party skills, including OpenAI `.system` skills and implementation helpers such as React, frontend, Playwright, Sora, shadcn/ui, database, inventory, product-management, and vendor Supabase/Stitch skills.
 
 ## Safety
 
-This repository is intended to contain only reusable skill instructions, references, and helper scripts.
-
-It should not contain:
-
-- project memory contents
-- `.agents/memory`
-- generated caches
-- credentials
-- private project data
-- local staging manifests
+Do not store credentials, project memory dumps, raw transcripts, generated caches, private project data, or local staging artifacts in this repository.
 
 ## License
 

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Reduce Cognitive Load"
+  short_description: "Simplify attention and memory demands"
+  default_prompt: "Use $reduce-cognitive-load to make this experience easier to understand and complete."

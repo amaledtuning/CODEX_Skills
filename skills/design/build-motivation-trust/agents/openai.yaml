@@ -1,0 +1,4 @@
+interface:
+  display_name: "Motivation and Trust"
+  short_description: "Increase ethical trust and engagement"
+  default_prompt: "Use $build-motivation-trust to make this experience more credible and motivating without dark patterns."
